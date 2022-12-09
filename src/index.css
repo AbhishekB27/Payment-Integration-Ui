@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+  .gridC{
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  }
