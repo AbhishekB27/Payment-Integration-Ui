@@ -3,7 +3,7 @@ import PaymentM from "./PaymentM";
 
 const MyApp = () => {
   return (
-    <div className="bg-purple-500 p-2 grid place-items-center min-h-screen">
+    <div className="bg-blue-600 p-2 grid place-items-center min-h-screen">
       <PaymentM />
     </div>
   );

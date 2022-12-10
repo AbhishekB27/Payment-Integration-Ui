@@ -37,12 +37,14 @@ const PaymentM = () => {
     }
     }else{
       setCardData((prev) => {
-        return {...prev,[name]:value}
+        let strictValue = (value.match(/^[0-9]+$/) != null) ? value : ""; // it is for only numeric numbers
+        return {...prev,[name]:name === 'name' || name === 'password' ? value : strictValue} // it based on the condition b/w numeric or non numeric
       });
     }
   };
+  console.log(number.password)
   return (
-    <div className="container  min-h-[90vh] bg-slate-50 grid items-start px-3 py-2">
+    <div className="container bg-slate-50 grid items-start p-1 lg:px-3 lg:py-2">
       <div className="grid place-content-end w-full">
         {" "}
         <button>
@@ -50,8 +52,8 @@ const PaymentM = () => {
           <FontAwesomeIcon icon={faTimes} />{" "}
         </button>{" "}
       </div>
-      <div className="grid w-full h-[90vh] grid-cols-[auto_24rem]">
-        <div className="flex flex-col px-10 py-3">
+      <div className="grid w-full min-h-[90vh] lg:grid-cols-[auto_24rem]">
+        <div className="flex flex-col gap-2 lg:gap-0 py-1 lg:px-10 lg:py-3">
           <div className="flex justify-between items-center">
             {" "}
             <div className="flex justify-start items-center">
@@ -71,11 +73,11 @@ const PaymentM = () => {
               <span className="p-1 bg-slate-900 rounded-[5px]">00</span>{" "}
             </div>{" "}
           </div>
-          <div className="flex flex-col justify-around h-full">
+          <div className="flex flex-col justify-around lg:gap-0 gap-5 h-full">
             <div className="flex justify-between items-center">
               <div className="flex flex-col justify-center items-start">
                 {" "}
-                <label className="font-semibold text-xl">
+                <label className="lg:font-semibold font-medium text-base lg:text-xl">
                   Card Number
                 </label>{" "}
                 <span className="text-sm text-slate-400">
@@ -87,11 +89,11 @@ const PaymentM = () => {
                 <FontAwesomeIcon icon={faPen} /> Edit{" "}
               </div>
             </div>
-            <div className="grid grid-cols-[4.5rem_auto_2rem] place-items-center border rounded-md bg-black/5 px-3 py-2">
+            <div className={`grid ${error ? 'shake border-2 ring-4 ring-red-200 border-red-400' : ''} grid-cols-[4.5rem_auto_2rem] place-items-center border rounded-md bg-black/5 lg:px-3 px-2 lg:py-2 py-1`}>
               <div className="flex">
                 {" "}
-                <div className="w-[2rem] h-[2rem] rounded-full bg-[#EB001B]"></div>{" "}
-                <div className="w-[2rem] h-[2rem] translate-x-[-1rem] bg-[#F79E1B] rounded-full opacity-80"></div>{" "}
+                <div className="lg:w-[2rem] w-[1rem] h-[1rem] lg:h-[2rem] rounded-full bg-[#EB001B]"></div>{" "}
+                <div className="lg:w-[2rem] w-[1rem] h-[1rem] lg:h-[2rem] translate-x-[-8px] bg-[#F79E1B] rounded-full opacity-80"></div>{" "}
               </div>
               <input
                 onChange={numberHandle}
@@ -101,7 +103,7 @@ const PaymentM = () => {
                 pattern="[0-9]"
                 inputMode="numeric"
                 value={number.cardNumber}
-                className="w-full tracking-widest text-lg font-medium text-gray-500 bg-transparent outline-none"
+                className="w-full lg:tracking-widest tracking-wide lg:text-lg text-base lg:font-medium font-normal text-gray-500 bg-transparent outline-none"
                 type="text"
               />
               {error ? (
@@ -113,39 +115,39 @@ const PaymentM = () => {
 
 <div className="grid grid-cols-2">
               <div className="flex flex-col justify-center items-start">
-                <label htmlFor="" className="font-semibold text-xl">
+                <label htmlFor="" className="lg:font-semibold font-medium text-base lg:text-xl">
                   Holder of card
                 </label>
-                <span className="text-sm text-slate-400">
+                <span className="lg:text-sm text-xs text-slate-400">
                   Enter the name of the card holder
                 </span>
               </div>
               <div className="flex justify-center px-1 items-center border rounded-md bg-white/50">
                 <input
                 onChange={numberHandle}
-
-                  className="w-full bg-transparent h-full p-2 outline-none text-lg font-medium text-gray-500"
+                value={number.name}
+                  className="w-full bg-transparent h-full p-1 lg:p-2 outline-none text-base lg:text-lg font-normal lg:font-medium text-gray-500"
                   name='name'
                   type="text"
                 />{" "}
-                <i class="fa-solid text-gray-300 text-2xl fa-grid fa-fw"></i>
+                <i class="fa-solid text-gray-300 text-xl lg:text-2xl fa-grid fa-fw"></i>
               </div>
             </div>
             
             <div className="grid grid-cols-2">
               <div className="flex flex-col justify-center items-start">
-                <label htmlFor="" className="font-semibold text-xl">
+                <label htmlFor="" className="lg:font-semibold font-medium text-base lg:text-xl">
                   CVV Number
                 </label>
-                <span className="text-sm text-slate-400">
+                <span className="text-xs lg:text-sm text-slate-400">
                   Enter the 3 or 4 digit number on the card
                 </span>
               </div>
               <div className="flex justify-center px-1 items-center border rounded-md bg-white/50">
                 <input
                 onChange={numberHandle}
-
-                  className="w-full bg-transparent h-full p-2 outline-none text-center text-lg font-medium text-gray-500"
+                value={number.cvv}
+                  className="w-full bg-transparent h-full p-1 outline-none text-center text-base lg:text-lg font-normal lg:font-medium text-gray-500"
                   maxLength="3"
                   name='cvv'
                   pattern="[0-9]"
@@ -154,33 +156,33 @@ const PaymentM = () => {
                   onFocus={() => setActive(true)}
                   onBlur={() => setActive(false)}
                 />{" "}
-                <i class="fa-solid text-gray-300 text-2xl fa-grid fa-fw"></i>
+                <i class="fa-solid text-gray-300 text-xl lg:text-2xl fa-grid fa-fw"></i>
               </div>
             </div>
             <div className="grid grid-cols-2">
               <div className="flex flex-col justify-center items-start">
-                <label htmlFor="" className="font-semibold text-xl">
+                <label htmlFor="" className="lg:font-semibold font-medium text-base lg:text-xl">
                   Exipiry Date
                 </label>
-                <span className="text-sm text-slate-400">
+                <span className="text-xs lg:text-sm text-slate-400">
                   Enter the expiration date of the card
                 </span>
               </div>
-              <div className="flex justify-center gap-3 items-center">
+              <div className="flex justify-center gap-2 lg:gap-3 items-center">
                 <input
                 onChange={numberHandle}
-
-                  className="w-full border rounded-md bg-white/50 h-full px-3 py-2 outline-none text-center text-lg font-medium text-gray-500"
+                value={number.month}
+                  className="w-full border rounded-md bg-white/50 h-full px-2 lg:px-3 py-1 lg:py-2 outline-none text-center text-base lg:text-lg font-normal lg:font-medium text-gray-500"
                   maxLength="2"
                   name='month'
                   pattern="[0-9]"
                   inputMode="numeric"
                   type="text"
                 />{" "}
-                <span className="text-2xl text-gray-500 font-medium">/</span>{" "}
+                <span className="lg:text-2xl text-xl text-gray-500 font-medium">/</span>{" "}
                 <input
                 onChange={numberHandle}
-
+                value={number.year}
                   className="w-full border rounded-md bg-white/50 h-full px-3 py-2 outline-none text-center text-lg font-medium text-gray-500"
                   maxLength="2"
                   name='year'
@@ -192,10 +194,10 @@ const PaymentM = () => {
             </div>
             <div className="grid grid-cols-2">
               <div className="flex flex-col justify-center items-start">
-                <label htmlFor="" className="font-semibold text-xl">
+                <label htmlFor="" className="lg:font-semibold font-medium text-base lg:text-xl">
                   Password
                 </label>
-                <span className="text-sm text-slate-400">
+                <span className="text-xs lg:text-sm text-slate-400">
                   Enter Your Dynamic Password
                 </span>
               </div>
@@ -203,18 +205,18 @@ const PaymentM = () => {
                 <input
                 onChange={numberHandle}
 
-                  className="w-full bg-transparent h-full p-2 outline-none text-start text-lg font-medium text-gray-500"
+                  className="w-full bg-transparent h-full p-1 lg:p-2 outline-none text-start text-base lg:text-lg font-medium text-gray-500"
                   maxLength="4"
                   name='password'
                   pattern="[0-9]"
                   inputMode="numeric"
                   type="password"
                 />{" "}
-                <i class="fa-solid text-gray-300 text-2xl fa-grid fa-fw"></i>
+                <i class="fa-solid text-gray-300 text-xl lg:text-2xl fa-grid fa-fw"></i>
               </div>
             </div>
             <div>
-              <button className="bg-blue-600 text-white rounded-md w-full h-full py-3 font-medium">
+              <button className="bg-blue-600 active:scale-90 transition-all text-white rounded-md w-full h-full py-2 lg:py-3 font-normal lg:font-medium">
                 Pay Now
               </button>
             </div>
@@ -222,7 +224,7 @@ const PaymentM = () => {
         </div>
         <div className="grid grid-rows-[4rem_auto_6rem] border-blue-700 pl-4 pr-8 pb-[1.6rem]">
           <div className="grid place-items-center">
-            <button className="bg-blue-600 w-[3.5rem] h-[2rem] rounded-sm"></button>
+            <button className="bg-blue-600 hidden lg:block w-[3.5rem] h-[2rem] rounded-sm"></button>
           </div>
           <div className="border relative flex flex-col justify-end bg-slate-200 px-8 py-3">
             <div className="grid grid-cols-2">
@@ -239,7 +241,7 @@ const PaymentM = () => {
               </div>
             </div>
             {/* top-[5rem] left-[50%] translate-y-[-50%] translate-x-[-50%] */}
-            <div className="perspective absolute top-[5rem] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[11rem]  h-[15rem] group">
+            <div className="perspective absolute hidden lg:block top-[5rem] left-[50%] translate-y-[-50%] translate-x-[-50%] w-[11rem]  h-[15rem] group">
               <div className={`preserve-3d relative transition-all duration-700 w-full h-full ${active ? 'my-rotate-y-180' : ''}`}>
                 <div className="grid absolute w-full h-full backface-hidden   rounded-md bg-white p-[1.20rem] bg-opacity-60 backdrop-filter backdrop-blur-lg">
                   <div className="flex justify-between items-start">
@@ -256,25 +258,25 @@ const PaymentM = () => {
                       <span className="text-xs min-h-[1rem] text-gray-600 w-[8.26rem] break-words text-start font-medium">
                         {number.name || 'Full Name'}
                       </span>
-                      <span className="flex text-gray-600 justify-start h-[1rem] w-[8.26rem] items-center text-xs font-medium gap-1">
+                      <span className="flex text-gray-600 justify-start h-[1rem] w-[8.26rem] items-center text-sm font-medium gap-[1.9px]">
                         {realNumber ? realNumber
                           .split("")
                           .map((item, index) =>
                             index < 4 ? (
-                              <i class="fa-solid fa-circle text-[6px]"></i>
+                              <i class="fa-solid fa-star-of-life text-[8px]"></i>
                             ) : index < 8 ? (
                               item
                             ) : index < 12 ? (
-                              <i class="fa-solid fa-circle text-[6px]"></i>
+                              <i class="fa-solid fa-star-of-life text-[8px]"></i>
                             ) : (
                               item
                             )
-                          ):'################'}
+                          ):Array(16).fill(0).map( item => <i class="fa-solid fa-star-of-life text-[7.5px]"></i> )}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       {" "}
-                      <div className="text-gray-600"><span>{number.month > 9 ? `${number.month}` : number.month < 1 ? 'MM' : `0${number.month}`} </span>/<span> {number.year || 'YY'}</span></div>{" "}
+                      <div className="text-gray-600"><span>{number.month > 9 ? `${number.month}` : number.month < 1 ? 'MM' : `0${number.month}`} </span>/<span> {number.year > 9 ? `${number.year}` : number.year < 1 ? 'YY' : `0${number.year}`}</span></div>{" "}
                       <div className="flex flex-col justify-center items-center">
                         {" "}
                         <img

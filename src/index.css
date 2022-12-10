@@ -19,3 +19,16 @@ code {
     gap: 5px;
     grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
   }
+
+/* shake effect on erorr */
+.shake{
+  animation: shake 300ms linear;
+}
+
+@keyframes shake {
+  0%{transform: translateX(0);}
+  25%{transform: translateX(5px);}
+  50%{transform: translateX(-5px);}
+  75%{transform: translateX(5px);}
+  100%{transform: translateX(0);}
+}
